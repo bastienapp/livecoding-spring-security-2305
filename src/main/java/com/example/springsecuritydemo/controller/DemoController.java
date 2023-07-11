@@ -1,0 +1,19 @@
+package com.example.springsecuritydemo.controller;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DemoController {
+
+    @GetMapping("/user")
+    public String userAccess() {
+        return "User access";
+    }
+
+    @GetMapping("/admin")
+    public String adminAccess() {
+        return "Admin access";
+    }
+}
