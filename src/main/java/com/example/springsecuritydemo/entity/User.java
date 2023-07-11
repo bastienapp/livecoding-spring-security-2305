@@ -22,7 +22,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    // pour créer manuellement un utilisateur pour la démo
+    // ce constructeur sert à créer un utilisateur manuellement pour la démo
     public User(String email, String password) {
         this.email = email;
         this.password = password;
