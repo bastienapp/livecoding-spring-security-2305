@@ -17,6 +17,7 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
+    // only used for manual role creation
     public Role(String name) {
         this.name = name;
     }
@@ -40,6 +41,7 @@ public class Role implements GrantedAuthority {
     @Override
     @JsonIgnore
     public String getAuthority() {
+        // don't forget to return authority here!
         return this.name;
     }
 }

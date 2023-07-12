@@ -20,7 +20,7 @@ public class SpringSecurityDemoApplication {
     ) {
 
         return (args) -> {
-            // créer un role user et un role admin s'ils n'existent pas
+            // manually creates roles on startup
             if (roleRepository.findByName("ROLE_ADMIN").isEmpty()) {
                 Role adminRole = new Role("ROLE_ADMIN");
                 roleRepository.save(adminRole);

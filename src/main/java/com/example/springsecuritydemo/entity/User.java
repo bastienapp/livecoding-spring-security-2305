@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    // FetchType.EAGER get role directly
+    // FetchType.EAGER needed for Spring Security
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -36,7 +36,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    // ce constructeur sert à créer un utilisateur manuellement pour la démo
+    // only used for manual user creation
     public User(String email, String password) {
         this.email = email;
         this.password = password;
@@ -60,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Attention, ne pas oublier de renseigner cette méthode
+        // don't forget to return roles here!
         return this.roles;
     }
 
@@ -75,6 +75,7 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public String getUsername() {
+        // don't forget to return username here!
         return this.email;
     }
 
