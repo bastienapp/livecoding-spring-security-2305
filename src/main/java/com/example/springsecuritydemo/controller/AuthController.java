@@ -64,13 +64,12 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody User user) {
 
-        // j'ai besoin de récupérer l'objet d'authentification de Spring
-        // pour cet utilisateur
+        // j'ai besoin de récupérer l'objet d'authentification de Spring pour cet utilisateur
         Authentication auth = this.authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getEmail(), user.getPassword()
         ));
         String token = tokenService.generateToken(auth);
-
+        // récupère l'utilisateur connecté
         User userConnected = (User) auth.getPrincipal();
 
         return new LoginResponse(token, userConnected);
