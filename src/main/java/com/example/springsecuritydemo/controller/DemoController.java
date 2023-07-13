@@ -8,14 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    // @PreAuthorize("hasRole('ROLE_USER')") -> pour Basic Auth
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER')")
     public String userAccess() {
         return "User access";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public String adminAccess() {
         return "Admin access";
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN','SCOPE_ROLE_USER')")
+    public String allAccess() {
+        return "All access";
     }
 }
