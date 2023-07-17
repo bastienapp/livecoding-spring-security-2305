@@ -61,6 +61,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // don't forget to return roles here!
         return this.roles;
