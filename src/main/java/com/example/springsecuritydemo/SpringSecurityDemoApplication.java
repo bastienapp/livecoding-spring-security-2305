@@ -1,11 +1,18 @@
 package com.example.springsecuritydemo;
 
 import com.example.springsecuritydemo.entity.Role;
+import com.example.springsecuritydemo.entity.User;
 import com.example.springsecuritydemo.repository.RoleRepository;
+import com.example.springsecuritydemo.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringSecurityDemoApplication {
@@ -16,18 +23,29 @@ public class SpringSecurityDemoApplication {
 
     @Bean
     public CommandLineRunner run(
-            RoleRepository roleRepository
+            RoleRepository roleRepository,
+            UserRepository userRepository
     ) {
 
         return (args) -> {
             // manually creates roles on startup
-            if (roleRepository.findByName("ROLE_ADMIN").isEmpty()) {
-                Role adminRole = new Role("ROLE_ADMIN");
-                roleRepository.save(adminRole);
+            Optional<Role> adminRole = roleRepository.findByName("ROLE_ADMIN");
+            Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+            if (adminRole.isEmpty()) {
+                roleRepository.save(new Role("ROLE_ADMIN"));
             }
-            if (roleRepository.findByName("ROLE_USER").isEmpty()) {
-                Role userRole = new Role("ROLE_USER");
-                roleRepository.save(userRole);
+            if (userRole.isEmpty()) {
+                roleRepository.save(new Role("ROLE_USER"));
+            }
+            if (
+                    adminRole.isPresent()
+                            && userRole.isPresent()
+                            && userRepository.findByEmail("admin@email.com").isEmpty()
+            ) {
+                PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+                User admin = new User("admin@email.com", passwordEncoder.encode("password"));
+                admin.setRoles(Set.of(adminRole.get(), userRole.get()));
+                userRepository.save(admin);
             }
         };
     }
