@@ -3,6 +3,7 @@
 FROM openjdk:17-jdk-slim
 WORKDIR /build/
 COPY . .
+RUN ./mvnw -Dmaven.test.skip clean package
 
 ENV PORT 8080
 
@@ -16,8 +17,6 @@ ARG JWT_SECRET=${JWT_SECRET}
 ENV JWT_SECRET=${JWT_SECRET}
 ARG FRONTEND_URL=${FRONTEND_URL}
 ENV FRONTEND_URL=${FRONTEND_URL}
-
-RUN ./mvnw clean package
 
 # production environment
 COPY target/*.jar /app/webapp.jar
