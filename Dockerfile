@@ -1,6 +1,6 @@
 # Dockerfile Spring
 # build environment
-FROM openjdk:17-jdk-slim as build
+FROM openjdk:17-jdk-slim
 COPY pom.xml /build/
 COPY src /build/src/
 COPY mvnw /build/
