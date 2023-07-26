@@ -1,12 +1,9 @@
 # Dockerfile Spring
 # build environment
 FROM openjdk:17-jdk-slim
-COPY pom.xml /build/
-COPY src /build/src/
-COPY mvnw /build/
-COPY .mvn /build/.mvn/
 WORKDIR /build/
-RUN ./mvnw -Dmaven.test.skip clean package
+COPY . .
+
 ENV PORT 8080
 
 ARG SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
@@ -19,6 +16,8 @@ ARG JWT_SECRET=${JWT_SECRET}
 ENV JWT_SECRET=${JWT_SECRET}
 ARG FRONTEND_URL=${FRONTEND_URL}
 ENV FRONTEND_URL=${FRONTEND_URL}
+
+RUN ./mvnw clean package
 
 # production environment
 COPY target/*.jar /app/webapp.jar
