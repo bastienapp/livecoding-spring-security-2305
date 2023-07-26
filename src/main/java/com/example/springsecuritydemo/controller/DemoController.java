@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
 
+    @GetMapping("")
+    public String hello() {
+        return "Hello world";
+    }
+
     @GetMapping("/user")
     // @PreAuthorize("hasRole('ROLE_USER')") -> pour Basic Auth
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER')")
