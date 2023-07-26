@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable()) // .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // nécessaire pour les routes authentifiées
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/hello").permitAll();
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
