@@ -6,7 +6,7 @@ COPY src /build/src/
 COPY mvnw /build/
 COPY .mvn /build/.mvn/
 WORKDIR /build/
-RUN ./mvnw -f /build/pom.xml -Dmaven.test.skip clean package
+RUN ./mvnw -Dmaven.test.skip clean package
 ENV PORT 8080
 
 ARG SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
