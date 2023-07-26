@@ -1,6 +1,6 @@
 # Dockerfile Spring
 # build environment
-FROM openjdk:17-jdk-slim as build
+FROM openjdk:17-jdk-slim
 WORKDIR /build/
 COPY . .
 RUN ./mvnw -Dmaven.test.skip clean package
@@ -19,8 +19,7 @@ ARG FRONTEND_URL=${FRONTEND_URL}
 ENV FRONTEND_URL=${FRONTEND_URL}
 
 # production environment
-FROM openjdk:17-jdk-slim
-COPY --from=build /build/target/*.jar /app/webapp.jar
+COPY target/*.jar /app/webapp.jar
 WORKDIR /app
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","webapp.jar"]
